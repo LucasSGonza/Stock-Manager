@@ -18,9 +18,19 @@ O objetivo deste projeto é auxiliar empreendedores no ramo da moda a gerenciar 
 - [RF-04] O sistema deve conseguir validar arquivos excel, buscando identificar tabelas, identificar suas colunas, e então transformar os registros em um arquivo json válido;
 - [RF-05] O sistema deve permitir exportar os dados da tabela de estoque transformando-os em um arquivo json válido;
 
+## Validações
+
+- O sistema deve sempre validar o conteúdo do arquivo inserido pelo usuário. A validação será somente aceita se todos os seguintes critérios forem válidos:
+  - O arquivo inseriro é um arquivo excel válido (`.xlsx`);
+  - O arquivo excel possuí apenas uma tabela;
+  - A tabela do arquivo excel contém as seguintes colunas: nome, categoria, tamanho, Qtd (quantidade) e preço;
+  - A tabela do arquivo excel contém ao menos 1 registro.
+
 ## Regras de Negócio
 
-- N/A
+- [RN-01] Sempre que o usuário realizar upload de um arquivo excel válido, o sistema deverá realizar os seguintes passos:
+  - 1. Criar um arquivo `.json` de backup com os dados atuais do estoque e perguntar ao usuário, através de um modal, se o mesmo deseja realizar download desse backup.
+  - 2. Os dados atuais do estoque serão totalmente substituídos pelos dados do novo arquivo inserido.
 
 ## Tecnologias
 
@@ -36,4 +46,4 @@ O objetivo deste projeto é auxiliar empreendedores no ramo da moda a gerenciar 
 
 - O projeto utiliza o **Supabase** como banco de dados. Contudo, por ser um database _free_, ele possuí certas limitações. Para mais detalhes, acessar [AQUI](https://supabase.com/docs/guides/functions/limits)
 
-> author: Lucas Silva Gonçalves 🙏
+> author: Lucas Silva Gonçalves

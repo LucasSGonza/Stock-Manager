@@ -1,10 +1,14 @@
-
-# Plano de Execução — Interface visual do projeto
+---
+description: Plano de Execução — Guia sobre a interface visual do projeto
+alwaysApply: true
+---
 
 ## Visão geral
+
 App web mobile-first para empreendedores da moda gerenciarem estoque de roupas e fluxo de caixa (compras/pagamentos), usando a identidade visual definida.
 
 ## Identidade visual (tokens em `src/styles.css`)
+
 - `--primary`: #741614 (vinho — ações principais, header, destaques)
 - `--secondary` / `--accent`: #e7cdbb (areia clara — superfícies, cards)
 - `--muted`: #bbaa9a (taupe — bordas, textos secundários)
@@ -17,6 +21,7 @@ App web mobile-first para empreendedores da moda gerenciarem estoque de roupas e
 - Border-radius suave, sombras discretas, estilo editorial/elegante coerente com moda
 
 ## Estrutura de rotas (TanStack Start)
+
 ```
 src/routes/
   __root.tsx        layout com header + bottom nav (mobile-first)
@@ -27,6 +32,7 @@ src/routes/
 Navegação inferior (mobile) e lateral simplificada (desktop) com 2 abas: **Estoque** e **Caixa**.
 
 ## Página Estoque (`/estoque`)
+
 Tabela responsiva com colunas:
 - Código (ID único numérico)
 - Nome da roupa
@@ -42,6 +48,7 @@ Componentes:
 Mobile: cartões empilhados; ≥md: tabela tradicional.
 
 ## Página Caixa (`/caixa`)
+
 Tabela com colunas:
 - Código da compra
 - Cliente
@@ -59,15 +66,18 @@ Helper `getDeadlineLevel(date)` calcula o nível e devolve a classe semântica. 
 Resumo no topo (cards): Total recebido, Pendente, Atrasado.
 
 ## Dados fictícios
+
 Em `src/data/mock.ts` (arrays tipados) — sem backend nesta etapa, estado local via `useState`. Persistência pode ser adicionada depois com Lovable Cloud, se desejado.
 
 ## Mobile-First
+
 - Layout base 360–414px; breakpoints `md` e `lg` para tabela completa
 - Bottom navigation fixa no mobile; topbar no desktop
 - Tipografia fluida, áreas de toque ≥44px
 - Modais ocupam quase toda a tela em mobile (shadcn Dialog já se adapta)
 
 ## Detalhes técnicos
+
 - Tailwind v4 via `src/styles.css`: adicionar `@theme` tokens + `@font-face`/`<link>` para Tenor Sans no `__root.tsx` head
 - shadcn: Dialog, AlertDialog, Button, Input, Select, Table, Card, Badge
 - Tipos em `src/types/index.ts` (`Clothing`, `Sale`, `SaleStatus`)
@@ -76,6 +86,7 @@ Em `src/data/mock.ts` (arrays tipados) — sem backend nesta etapa, estado local
 - Substituir o placeholder de `src/routes/index.tsx`
 
 ## Entregáveis (mapeados aos critérios de aceite)
+
 1. Visual alinhado à identidade (paleta + Tenor Sans) ✅
 2. Mobile-first com adaptação desktop ✅
 3. Tabela de roupas com editar/excluir ✅
