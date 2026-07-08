@@ -92,7 +92,7 @@ npm run build
 
 | Arquivo | Descrição |
 |---|---|
-| `docs/prd-stock-manager.md` | Requisitos, regras de negócio e tecnologias |
+| `docs/tasks/prd-stock-manager.md` | Requisitos, regras de negócio e tecnologias |
 | `docs/guides/react-development-guide.md` | Padrões de desenvolvimento React do projeto |
 | `docs/rules/engineering.md` | Regras de qualidade de código e commits |
 | `docs/rules/rules.md` | Diretrizes de segurança |

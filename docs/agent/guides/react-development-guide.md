@@ -167,7 +167,7 @@ export default WebRouter;
 
 ### Tipagem e assinatura
 
-Todo componente deve ser tipado com `React.FC<Props>` e ter sua interface de Props declarada no mesmo arquivo:
+Todo componente deve ser criado como `Function Component`, e ter sua interface de Props declarada no mesmo arquivo:
 
 ```tsx
 import { Box } from "@mui/material";
@@ -180,12 +180,7 @@ interface CardProps {
   padding?: CSSProperties["padding"];
 }
 
-export const Card: React.FC<CardProps> = ({
-  children,
-  width = "auto",
-  height = "auto",
-  padding = "24px",
-}) => {
+export function Card({children, width = "auto", height = "auto", padding = "24px"}: CardProps){
   return (
     <Box
       sx={{

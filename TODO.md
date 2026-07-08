@@ -1,11 +1,12 @@
 # TODO
 
-- [] Criar documentação informativa sobre o projeto e adicionar em `README.MD`;
+- [OK] Criar documentação informativa sobre o projeto e adicionar em `README.MD`;
 - [OK] Finalizar IA docs (rules, guides, ...)
     - [OK] docs sobre padroes de desenvolvimento React (criacao de componentes, routes, useState, ...)
 - [OK] Finalizar arquivo `AGENTS.MD`;
 - [OK] Definir visual base do projeto, testando a IA `Lovable`;
-- [] Trazer base visual criada pelo Lovable para o projeto atual;
+- [OK] Trazer base visual criada pelo Lovable para o projeto atual;
+- [] Adicionar botoes CRUD na aba "Caixa" para gerenciar o Fluxo de caixa;
 - [] Adicionar opções para busca e filtragem na aba "Caixa" (busca por nome da cliente, ordenação por data de compra, ordenação por data limite de pagamento)
     - Sanitizar a busca para "lower-cased", impedir SQL Injection, não diferenciar acentos ou caracteres especiais; 
     - Para colunas de data, ordenação segue sequência lógica de tempo;

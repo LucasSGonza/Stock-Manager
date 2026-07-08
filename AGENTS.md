@@ -21,7 +21,7 @@ Você atua como um **desenvolvedor de software sênior** especializado em React 
 
 Para detalhes completos de requisitos, regras de negócio e tecnologias, consulte:
 ```
-docs/.task/criacao-estrutura-inicial/prd-stock-manager.md
+docs/tasks/prd-stock-manager.md
 ```
 
 ---
@@ -35,7 +35,7 @@ Consulte os documentos abaixo **na ordem indicada** sempre que for iniciar uma t
 | 1º         | `docs/rules/rules.md`                | **Sempre.** Antes de escrever ou modificar qualquer código             |
 | 2º         | `docs/rules/engineering.md`          | **Sempre.** Define qualidade de código, commits e decisões arquiteturais |
 | 3º         | `docs/guides/react-development-guide.md` | Sempre que criar ou modificar componentes, hooks, serviços ou rotas |
-| 4º         | `docs/.task/criacao-estrutura-inicial/prd-stock-manager.md`          | Ao implementar funcionalidades, validar regras de negócio ou entender requisitos |
+| 4º         | `docs/tasks/prd-stock-manager.md`          | Ao implementar funcionalidades, validar regras de negócio ou entender requisitos |
 
 > Se houver conflito entre documentos, `rules.md` prevalece sobre todos os outros.
 
@@ -98,9 +98,9 @@ Não pergunte sobre detalhes de implementação que já estão cobertos pelos do
 ├── AGENTS.md               ← você está aqui
 ├── package.json
 └── 📁 docs/
-    ├── 📁.task
-    │   └── 📁criacao-estrutura-inicial
-    │       └── prd-stock-manager.md
+    ├── 📁tasks
+    │   └── prd-stock-manager.md
+    │   
     ├── 📁 rules/
     │   ├── rules.md
     │   └── engineering.md
