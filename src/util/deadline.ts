@@ -1,10 +1,15 @@
-import type { DeadlineLevel } from "@/types";
+import type { DeadlineLevel, SaleStatus } from "@/types";
 import { COLORS } from "./constants";
 
-export function getDeadlineLevel(deadlineISO: string): DeadlineLevel {
-  const deadline = new Date(deadlineISO);
-  const now = new Date();
-  const days = (deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+export function getDeadlineLevel(paymentDeadline: string, status?: SaleStatus): DeadlineLevel {
+  if (status === "Pago") return "paid";
+
+  const [y, m, d] = paymentDeadline.split("-").map(Number);
+  const deadline = new Date(y, m - 1, d);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const days = (deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
 
   if (days <= 7) return "danger";
   if (days <= 30) return "warn";
@@ -16,6 +21,8 @@ export function getDeadlineColors(level: DeadlineLevel): {
   color: string;
 } {
   switch (level) {
+    case "paid":
+      return { bgcolor: `${COLORS.primary}1a`, color: COLORS.primary };
     case "danger":
       return { bgcolor: COLORS.statusDanger, color: COLORS.statusDangerFg };
     case "warn":
@@ -23,14 +30,6 @@ export function getDeadlineColors(level: DeadlineLevel): {
     default:
       return { bgcolor: COLORS.statusOk, color: COLORS.statusOkFg };
   }
-}
-
-export function formatDateBR(iso: string): string {
-  return new Date(iso).toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
 }
 
 export function formatBRL(value: number): string {

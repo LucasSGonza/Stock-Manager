@@ -1,7 +1,12 @@
+import { AppLayout } from "./components";
 import WebRouter from "./routes/WebRouter";
 
 function App() {
-  return <WebRouter />;
+  return (
+    <AppLayout>
+      <WebRouter />
+    </AppLayout>
+  )
 }
 
 export default App;

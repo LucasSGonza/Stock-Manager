@@ -14,27 +14,27 @@ import type { DClothing } from "@/types";
 interface ClothingModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  initial?: DClothing | null;
+  isEdit?: DClothing | null;
   onSubmit: (data: Omit<DClothing, "id"> & { id?: number }) => void;
 }
 
 const emptyForm = { name: "", category: "", size: "", quantity: 0, price: 0 };
 
 interface ClothingFormProps {
-  initial?: DClothing | null;
+  isEdit?: DClothing | null;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: Omit<DClothing, "id"> & { id?: number }) => void;
 }
 
-function ClothingForm({ initial, onOpenChange, onSubmit }: ClothingFormProps) {
+function ClothingForm({ isEdit, onOpenChange, onSubmit }: ClothingFormProps) {
   const [form, setForm] = useState(
-    initial
+    isEdit
       ? {
-          name: initial.name,
-          category: initial.category,
-          size: initial.size,
-          quantity: initial.quantity,
-          price: initial.price,
+          name: isEdit.name,
+          category: isEdit.category,
+          size: isEdit.size,
+          quantity: isEdit.quantity,
+          price: isEdit.price,
         }
       : emptyForm
   );
@@ -42,15 +42,15 @@ function ClothingForm({ initial, onOpenChange, onSubmit }: ClothingFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim()) return;
-    onSubmit({ ...form, id: initial?.id });
+    onSubmit({ ...form, id: isEdit?.id });
     onOpenChange(false);
   };
 
   return (
     <>
       <DialogTitle sx={{ pb: 0.5 }}>
-        <Typography variant="h6" sx={{ fontFamily: "inherit", fontWeight: 600 }}>
-          {initial ? "Editar roupa" : "Nova roupa"}
+        <Typography variant="body1" sx={{ fontFamily: "inherit", fontWeight: 600 }}>
+          {isEdit ? "Editar roupa" : "Nova roupa"}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, fontSize: "0.8125rem" }}>
           Preencha as informações do item de estoque.
@@ -113,7 +113,7 @@ function ClothingForm({ initial, onOpenChange, onSubmit }: ClothingFormProps) {
             Cancelar
           </Button>
           <Button type="submit" variant="contained">
-            {initial ? "Salvar" : "Adicionar"}
+            {isEdit ? "Salvar" : "Adicionar"}
           </Button>
         </DialogActions>
       </Box>
@@ -121,12 +121,12 @@ function ClothingForm({ initial, onOpenChange, onSubmit }: ClothingFormProps) {
   );
 }
 
-export function ClothingModal({ open, onOpenChange, initial, onSubmit }: ClothingModalProps) {
+export function ClothingModal({ open, onOpenChange, isEdit, onSubmit }: ClothingModalProps) {
   return (
     <Dialog open={open} onClose={() => onOpenChange(false)} maxWidth="xs" fullWidth>
       <ClothingForm
-        key={initial?.id ?? "new"}
-        initial={initial}
+        key={isEdit?.id ?? "new"}
+        isEdit={isEdit}
         onOpenChange={onOpenChange}
         onSubmit={onSubmit}
       />

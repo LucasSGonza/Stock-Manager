@@ -12,6 +12,8 @@ export const COLORS = {
   statusWarnFg: "#3a1f00",
   statusDanger: "#FF2C2C",
   statusDangerFg: "#ffffff",
+  // statusPaid: "#80EF80",
+  // statusPaidFg: "#1a4a1a",
 } as const;
 
 export const FONT_FAMILY = '"Tenor Sans", ui-sans-serif, system-ui, sans-serif';
