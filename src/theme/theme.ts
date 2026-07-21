@@ -1,11 +1,11 @@
 import { createTheme } from "@mui/material/styles";
-import { COLORS, FONT_FAMILY, BORDER_RADIUS } from "@/util";
+import { COLORS, SHADOWS, FONT_FAMILY, BORDER_RADIUS } from "@/util";
 
 const theme = createTheme({
   palette: {
     primary: {
       main: COLORS.primary,
-      contrastText: "#faf5f2",
+      contrastText: COLORS.contrastText,
     },
     secondary: {
       main: COLORS.secondary,
@@ -92,7 +92,7 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
+          boxShadow: SHADOWS.card,
         },
       },
     },

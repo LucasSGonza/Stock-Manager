@@ -15,47 +15,27 @@ import {
 } from "@mui/material";
 import { SaleModal } from "@/components/SaleModal";
 import {
-  salesInfos,
   formatBRL,
   getDeadlineLevel,
   getDeadlineColors,
+  validateStatusSale,
 } from "@/util";
 import type { DSale, SaleStatus } from "@/types";
-import { COLORS } from "@/util";
+import { COLORS, SHADOWS } from "@/util";
 import { DialogConfirmDelete } from "@/components";
-
-const STATUS_STYLES: Record<
-  SaleStatus,
-  { bgcolor: string; color: string; border: string }
-> = {
-  Pago: {
-    bgcolor: `${COLORS.primary}1a`,
-    color: COLORS.primary,
-    border: `${COLORS.primary}4d`,
-  },
-  Pendente: {
-    bgcolor: COLORS.secondary,
-    color: COLORS.foreground,
-    border: COLORS.border,
-  },
-  Atrasado: {
-    bgcolor: COLORS.statusDanger,
-    color: COLORS.statusDangerFg,
-    border: "transparent",
-  },
-};
-
-function StatusBadge({ status = "Pendente" }: { status?: SaleStatus }) {
-  const s = STATUS_STYLES[status];
+import { mockedSales } from "@/util/mockData";
+function StatusBadge({ status, paymentDeadline }: { status?: SaleStatus; paymentDeadline: string }) {
+  const level = getDeadlineLevel(paymentDeadline, status);
+  const { bgcolor, color, border } = getDeadlineColors(level);
   return (
     <Chip
       label={status ?? "Indefinido"}
       size="small"
       variant="outlined"
       sx={{
-        bgcolor: s.bgcolor,
-        color: s.color,
-        borderColor: s.border,
+        bgcolor,
+        color,
+        borderColor: border,
         fontWeight: 600,
         fontSize: "0.75rem",
         width: "70px",
@@ -69,9 +49,15 @@ function formatDate(iso: string): string {
   return `${d}/${m}/${y}`;
 }
 
-function DeadlineBadge({ paymentDeadline, status }: { paymentDeadline: string; status?: SaleStatus }) {
+function DeadlineBadge({
+  paymentDeadline,
+  status,
+}: {
+  paymentDeadline: string;
+  status?: SaleStatus;
+}) {
   const level = getDeadlineLevel(paymentDeadline, status);
-  const { bgcolor, color } = getDeadlineColors(level);
+  const { bgcolor, color, border } = getDeadlineColors(level);
   return (
     <Chip
       size="small"
@@ -80,7 +66,7 @@ function DeadlineBadge({ paymentDeadline, status }: { paymentDeadline: string; s
       sx={{
         bgcolor,
         color,
-        border: `${COLORS.primary}4d`,
+        borderColor: border,
         fontSize: "0.75rem",
         fontWeight: 500,
       }}
@@ -110,7 +96,7 @@ function SummaryCard({ label, value, tone }: SummaryCardProps) {
         bgcolor: "background.paper",
         p: 2,
         borderLeft: `4px solid ${borderColor}`,
-        boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+        boxShadow: SHADOWS.card,
       }}
     >
       <Typography
@@ -131,12 +117,27 @@ function SummaryCard({ label, value, tone }: SummaryCardProps) {
   );
 }
 
+interface UISale extends DSale {
+  status: SaleStatus;
+}
+
 export function CaixaPage() {
-  const [sales, setSales] = useState<DSale[]>(salesInfos);
+  const [sales, setSales] = useState<UISale[]>(updateSalesStatus(mockedSales));
   const [query, setQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing] = useState<DSale | null>(null);
+  const [editing, setEditing] = useState<UISale | null>(null);
   const [confirmId, setConfirmId] = useState<number | null>(null);
+
+  function updateSalesStatus(sales: DSale[]): UISale[] {
+    return sales.map((s) => {
+      const status = validateStatusSale(
+        s.paymentDeadline,
+        s.installmentsPaid,
+        s.installmentsTotal,
+      );
+      return { ...s, status };
+    });
+  }
 
   const filteredSales = useMemo(() => {
     const q = query.toLowerCase().trim();
@@ -167,21 +168,35 @@ export function CaixaPage() {
     setModalOpen(true);
   };
 
-  const handleOpenEdit = (sale: DSale) => {
+  const handleOpenEdit = (sale: UISale) => {
     setEditing(sale);
     setModalOpen(true);
   };
 
   const handleSubmit = (data: Omit<DSale, "id"> & { id?: number }) => {
+    // Update the status of the sale based on the payment deadline and paid installments
+    const status = validateStatusSale(
+      data.paymentDeadline,
+      data.installmentsPaid,
+      data.installmentsTotal,
+    );
+
     if (data.id != null) {
       setSales((prev) =>
         prev.map((s) =>
-          s.id === data.id ? { ...s, ...data, id: data.id! } : s,
+          s.id === data.id ? { ...s, ...data, id: data.id!, status } : s,
         ),
       );
     } else {
       const nextId = sales.reduce((m, s) => Math.max(m, s.id), 5000) + 1;
-      setSales((prev) => [...prev, { ...data, id: nextId }]);
+      setSales((prev) => [
+        ...prev,
+        {
+          ...data,
+          id: nextId,
+          status: status,
+        },
+      ]);
     }
   };
 
@@ -276,7 +291,7 @@ export function CaixaPage() {
               border: `1px solid ${COLORS.border}`,
               bgcolor: "background.paper",
               p: 2,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+              boxShadow: SHADOWS.card,
             }}
           >
             <Box
@@ -318,7 +333,7 @@ export function CaixaPage() {
                 justifyContent: "space-between",
               }}
             >
-              <StatusBadge status={sale.status} />
+              <StatusBadge status={sale.status} paymentDeadline={sale.paymentDeadline} />
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <Typography variant="caption" color="text.secondary">
                   {sale.installmentsPaid}/{sale.installmentsTotal} parcelas
@@ -339,7 +354,10 @@ export function CaixaPage() {
                   >
                     Limite:
                   </Typography>
-                  <DeadlineBadge paymentDeadline={sale.paymentDeadline} status={sale.status} />
+                  <DeadlineBadge
+                    paymentDeadline={sale.paymentDeadline}
+                    status={sale.status}
+                  />
                 </Box>
               </Box>
             </Box>
@@ -417,7 +435,7 @@ export function CaixaPage() {
                 <TableCell align="right">{formatBRL(sale.price)}</TableCell>
                 <TableCell>{formatDate(sale.purchaseDate)}</TableCell>
                 <TableCell>
-                  <StatusBadge status={sale.status} />
+                  <StatusBadge status={sale.status} paymentDeadline={sale.paymentDeadline} />
                 </TableCell>
                 <TableCell align="center">
                   <Typography variant="body2">
@@ -425,7 +443,10 @@ export function CaixaPage() {
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <DeadlineBadge paymentDeadline={sale.paymentDeadline} status={sale.status} />
+                  <DeadlineBadge
+                    paymentDeadline={sale.paymentDeadline}
+                    status={sale.status}
+                  />
                 </TableCell>
                 <TableCell align="right">
                   <Box
@@ -454,7 +475,7 @@ export function CaixaPage() {
                         color: COLORS.statusDangerFg,
                         borderRadius: 1,
                         p: 0.75,
-                        "&:hover": { bgcolor: "#e02020" },
+                        "&:hover": { bgcolor: COLORS.statusDangerHover },
                       }}
                     >
                       <Icon fontSize="medium">delete</Icon>

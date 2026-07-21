@@ -15,7 +15,7 @@ import {
 import { ClothingModal } from "@/components/ClothingModal";
 import { mockedClothes, formatBRL } from "@/util";
 import type { DClothing } from "@/types";
-import { COLORS } from "@/util";
+import { COLORS, SHADOWS } from "@/util";
 import { DialogConfirmDelete } from "@/components";
 
 export function EstoquePage() {
@@ -138,7 +138,7 @@ export function EstoquePage() {
               border: `1px solid ${COLORS.border}`,
               bgcolor: "background.paper",
               p: 2,
-              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+              boxShadow: SHADOWS.card,
             }}
           >
             <Box
@@ -271,7 +271,7 @@ export function EstoquePage() {
                         color: COLORS.statusDangerFg,
                         borderRadius: 1,
                         p: 0.75,
-                        "&:hover": { bgcolor: "#e02020" },
+                        "&:hover": { bgcolor: COLORS.statusDangerHover },
                       }}
                     >
                       <Icon fontSize="medium">delete</Icon>

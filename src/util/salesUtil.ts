@@ -1,11 +1,17 @@
 import type { SaleStatus } from "@/types";
 
-export function validateStatusSale(installmentsPaid: number, installmentsTotal: number): SaleStatus {
-  if (installmentsPaid === installmentsTotal) {
+export function validateStatusSale(
+  paymentDeadline: string,
+  installmentsPaid: number,
+  installmentsTotal: number,
+): SaleStatus {
+  if (installmentsPaid >= installmentsTotal) {
     return "Pago";
   }
-  if (installmentsPaid < installmentsTotal) {
-    return "Pendente";
+  const today = new Date();
+  const deadlineDate = new Date(paymentDeadline);
+  if (today > deadlineDate) {
+    return "Atrasado";
   }
-  return "Atrasado";
+  return "Pendente";
 }

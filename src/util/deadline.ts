@@ -19,16 +19,17 @@ export function getDeadlineLevel(paymentDeadline: string, status?: SaleStatus): 
 export function getDeadlineColors(level: DeadlineLevel): {
   bgcolor: string;
   color: string;
+  border: string;
 } {
   switch (level) {
     case "paid":
-      return { bgcolor: `${COLORS.primary}1a`, color: COLORS.primary };
+      return { bgcolor: `${COLORS.primary}1a`, color: COLORS.primary, border: `${COLORS.primary}4d` };
     case "danger":
-      return { bgcolor: COLORS.statusDanger, color: COLORS.statusDangerFg };
+      return { bgcolor: COLORS.statusDanger, color: COLORS.statusDangerFg, border: `${COLORS.statusDanger}4d` };
     case "warn":
-      return { bgcolor: COLORS.statusWarn, color: COLORS.statusWarnFg };
+      return { bgcolor: `${COLORS.statusWarn}30`, color: COLORS.statusWarnFg, border: `${COLORS.statusWarn}4d` };
     default:
-      return { bgcolor: COLORS.statusOk, color: COLORS.statusOkFg };
+      return { bgcolor: `${COLORS.statusOk}25`, color: COLORS.statusOkFg, border: `${COLORS.statusOk}4d` };
   }
 }
 

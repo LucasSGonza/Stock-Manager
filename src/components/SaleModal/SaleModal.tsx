@@ -6,10 +6,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import type { DSale } from "@/types";
+import { useAppSelector } from "@/store/hooks";
+import { selectStockList } from "@/store/stock/stockSlice";
 
 interface SaleModalProps {
   open: boolean;
@@ -23,7 +29,6 @@ const emptyForm: Omit<DSale, "id"> = {
   clothingName: "",
   price: 0,
   purchaseDate: "",
-  status: "Pendente",
   paymentDeadline: "",
   installmentsPaid: 0,
   installmentsTotal: 0,
@@ -36,6 +41,7 @@ interface SaleFormProps {
 }
 
 function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
+  const items = useAppSelector(selectStockList);
   const [form, setForm] = useState<Omit<DSale, "id">>(
     isEdit
       ? {
@@ -43,7 +49,6 @@ function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
           clothingName: isEdit.clothingName,
           price: isEdit.price,
           purchaseDate: isEdit.purchaseDate,
-          status: isEdit.status,
           paymentDeadline: isEdit.paymentDeadline,
           installmentsPaid: isEdit.installmentsPaid,
           installmentsTotal: isEdit.installmentsTotal,
@@ -51,12 +56,42 @@ function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
       : emptyForm,
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!form.customerName.trim() || !form.clothingName.trim()) return;
+    if (areFormFieldsValid(form) != true) return;
     onSubmit({ ...form, id: isEdit?.id });
     onOpenChange(false);
   };
+
+  function areFormFieldsValid(form: Omit<DSale, "id">): boolean {
+    //Validate required fields
+    if (
+      !form.customerName.trim() ||
+      !form.clothingName.trim() ||
+      form.installmentsTotal <= 0 ||
+      form.price <= 0 ||
+      !form.purchaseDate
+    )
+      return false;
+
+    // Validate that installmentsPaid is not greater than installmentsTotal
+    if (form.installmentsPaid > form.installmentsTotal) return false;
+
+    if (form.paymentDeadline == null || form.paymentDeadline === "") {
+      const purchaseDate = new Date(form.purchaseDate);
+      const defaultDeadline = new Date(purchaseDate);
+      defaultDeadline.setMonth(
+        purchaseDate.getMonth() + form.installmentsTotal,
+      );
+      form.paymentDeadline = defaultDeadline.toISOString().split("T")[0];
+    }
+
+    // Validate that paymentDeadline is not before purchaseDate
+    if (form.paymentDeadline && form.paymentDeadline < form.purchaseDate)
+      return false;
+
+    return true;
+  }
 
   return (
     <>
@@ -89,17 +124,27 @@ function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
               fullWidth
               size="small"
             />
-            <TextField
-              label="Roupa comprada"
-              value={form.clothingName}
-              onChange={(e) =>
-                setForm({ ...form, clothingName: e.target.value })
-              }
-              placeholder="Nome da roupa"
-              required
-              fullWidth
-              size="small"
-            />
+            <FormControl fullWidth size="small">
+              <InputLabel id="clothing-select-label">Roupa comprada</InputLabel>
+              <Select
+                labelId="clothing-select-label"
+                label="Roupa comprada"
+                value={form.clothingName}
+                onChange={(e) =>
+                  setForm({ ...form, clothingName: e.target.value })
+                }
+                required
+              >
+                {
+                  /* Add your clothing options here */
+                  items.map((item) => (
+                    <MenuItem key={item.id} value={item.name}>
+                      {item.name}
+                    </MenuItem>
+                  ))
+                }
+              </Select>
+            </FormControl>
             <TextField
               label="Preço (R$)"
               type="number"
@@ -107,7 +152,8 @@ function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
               onChange={(e) =>
                 setForm({ ...form, price: Number(e.target.value) })
               }
-              slotProps={{ htmlInput: { min: 0, step: "0.01" } }}
+              slotProps={{ htmlInput: { min: 1, step: "0.01" } }}
+              required
               fullWidth
               size="small"
             />
@@ -134,7 +180,6 @@ function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
                   setForm({ ...form, paymentDeadline: e.target.value })
                 }
                 slotProps={{ inputLabel: { shrink: true } }}
-                required
                 fullWidth
                 size="small"
               />
@@ -152,7 +197,9 @@ function SaleForm({ isEdit, onOpenChange, onSubmit }: SaleFormProps) {
                     installmentsPaid: Math.max(0, Number(e.target.value)),
                   })
                 }
-                slotProps={{ htmlInput: { min: 0 } }}
+                slotProps={{
+                  htmlInput: { min: 0, max: form.installmentsTotal },
+                }}
                 fullWidth
                 size="small"
               />

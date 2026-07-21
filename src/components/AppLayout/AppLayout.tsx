@@ -25,7 +25,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           top: 0,
           zIndex: 30,
           bgcolor: COLORS.primary,
-          color: "#faf5f2",
+          color: COLORS.contrastText,
           borderBottom: `1px solid ${COLORS.border}`,
         }}
       >
@@ -47,7 +47,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 fontSize: { xs: "1.125rem", md: "1.25rem" },
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
-                color: "#faf5f2",
+                color: COLORS.contrastText,
               }}
             >
               Atelier
@@ -56,7 +56,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               sx={{
                 fontSize: "0.75rem",
                 opacity: 0.8,
-                color: "#faf5f2",
+                color: COLORS.contrastText,
                 display: { xs: "none", sm: "inline" },
               }}
             >
@@ -88,11 +88,11 @@ export function AppLayout({ children }: AppLayoutProps) {
                       borderRadius: 1,
                       fontSize: "0.875rem",
                       letterSpacing: "0.05em",
-                      color: "#faf5f2",
-                      bgcolor: active ? "rgba(250,245,242,0.15)" : "transparent",
+                      color: COLORS.contrastText,
+                      bgcolor: active ? `${COLORS.contrastText}26` : "transparent",
                       transition: "background-color 0.15s",
                       "&:hover": {
-                        bgcolor: "rgba(250,245,242,0.1)",
+                        bgcolor: `${COLORS.contrastText}1a`,
                       },
                     }}
                   >

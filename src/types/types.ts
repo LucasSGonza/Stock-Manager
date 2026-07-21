@@ -18,7 +18,6 @@ export interface DSale {
   paymentDeadline: string;
   installmentsPaid: number;
   installmentsTotal: number;
-  status?: SaleStatus; //UI only
 }
 
 export type DeadlineLevel = "ok" | "warn" | "danger" | "paid";

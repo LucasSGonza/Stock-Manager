@@ -1,5 +1,4 @@
 import type { DClothing, DSale } from "@/types";
-import { validateStatusSale } from "./salesUtil";
 
 export const mockedClothes: DClothing[] = [
   { id: 1001, name: "Vestido Floral Midi", category: "Vestido", size: "M", quantity: 8, price: 189.9 },
@@ -13,7 +12,7 @@ export const mockedClothes: DClothing[] = [
   { id: 1009, name: "Camisa térmica Preta", category: "Camisa", size: "P", quantity: 2, price: 100.0 },
 ];
 
-const mockedSales: DSale[] = [
+export const mockedSales: DSale[] = [
   { id: 5001, customerName: "Marina Souza", clothingName: "Vestido Floral Midi", price: 189.9, purchaseDate: "2025-10-01", paymentDeadline: "2025-11-01", installmentsPaid: 1, installmentsTotal: 1 },
   { id: 5002, customerName: "Júlia Mendes", clothingName: "Blazer Alfaiataria Caramelo", price: 399.0, purchaseDate: "2025-10-05", paymentDeadline: "2026-01-05", installmentsPaid: 1, installmentsTotal: 3 },
   { id: 5003, customerName: "Camila Rocha", clothingName: "Calça Wide Leg Terracota", price: 249.5, purchaseDate: "2026-02-12", paymentDeadline: "2026-04-12", installmentsPaid: 0, installmentsTotal: 2 },
@@ -25,10 +24,3 @@ const mockedSales: DSale[] = [
   { id: 5009, customerName: "Sofia Andrade", clothingName: "Blusa de Linho Off-White", price: 119.0, purchaseDate: "2026-04-22", paymentDeadline: "2026-05-22", installmentsPaid: 0, installmentsTotal: 1 },
   { id: 5010, customerName: "Júlia Mendes", clothingName: "Camisa térmica Preta", price: 100.0, purchaseDate: "2026-07-09", paymentDeadline: "2026-08-09", installmentsPaid: 0, installmentsTotal: 1 },
 ];
-
-export const salesInfos: DSale[] = mockedSales.map((sale) => {
-  return {
-    ...sale,
-    status: validateStatusSale(sale.installmentsPaid, sale.installmentsTotal),
-  };
-});
