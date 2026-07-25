@@ -11,12 +11,13 @@ export type SaleStatus = "Pago" | "Pendente" | "Atrasado";
 
 export interface DSale {
   id: number;
-  customer: string;
+  customerName: string;
   clothingName: string;
   price: number;
   purchaseDate: string;
-  status: SaleStatus;
   paymentDeadline: string;
+  installmentsPaid: number;
+  installmentsTotal: number;
 }
 
-export type DeadlineLevel = "ok" | "warn" | "danger";
+export type DeadlineLevel = "ok" | "warn" | "danger" | "paid";

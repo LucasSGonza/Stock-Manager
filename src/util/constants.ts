@@ -6,12 +6,18 @@ export const COLORS = {
   foreground: "#3a2a22",
   card: "#fdfaf8",
   border: "#cfc0b5",
-  statusOk: "#FFED29",
-  statusOkFg: "#4a3a00",
-  statusWarn: "#FF991C",
-  statusWarnFg: "#3a1f00",
+  statusOk: "#7a8c5e",
+  statusOkFg: "#4b5a34",
+  statusWarn: "#b87a2e",
+  statusWarnFg: "#6b4518",
   statusDanger: "#FF2C2C",
   statusDangerFg: "#ffffff",
+  statusDangerHover: "#e02020",
+  contrastText: "#faf5f2",
+} as const;
+
+export const SHADOWS = {
+  card: "0 1px 3px rgba(0,0,0,0.08)",
 } as const;
 
 export const FONT_FAMILY = '"Tenor Sans", ui-sans-serif, system-ui, sans-serif';

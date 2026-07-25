@@ -1,7 +1,6 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Icon, Typography } from "@mui/material";
 import { Link, useLocation } from "react-router";
-import { Shirt, Wallet } from "lucide-react";
 import { COLORS, NAV_ITEMS } from "@/util";
 
 interface AppLayoutProps {
@@ -9,8 +8,8 @@ interface AppLayoutProps {
 }
 
 const navIcons = {
-  "/estoque": Shirt,
-  "/caixa": Wallet,
+  "/estoque": <Icon fontSize="medium">checkroom</Icon>,
+  "/caixa": <Icon fontSize="medium">wallet</Icon>,
 } as const;
 
 export function AppLayout({ children }: AppLayoutProps) {
@@ -26,7 +25,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           top: 0,
           zIndex: 30,
           bgcolor: COLORS.primary,
-          color: "#faf5f2",
+          color: COLORS.contrastText,
           borderBottom: `1px solid ${COLORS.border}`,
         }}
       >
@@ -48,7 +47,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                 fontSize: { xs: "1.125rem", md: "1.25rem" },
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
-                color: "#faf5f2",
+                color: COLORS.contrastText,
               }}
             >
               Atelier
@@ -57,7 +56,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               sx={{
                 fontSize: "0.75rem",
                 opacity: 0.8,
-                color: "#faf5f2",
+                color: COLORS.contrastText,
                 display: { xs: "none", sm: "inline" },
               }}
             >
@@ -71,7 +70,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 0.5 }}
           >
             {NAV_ITEMS.map((item) => {
-              const Icon = navIcons[item.to];
+              const IconNav = navIcons[item.to];
               const active = pathname.startsWith(item.to);
               return (
                 <Link
@@ -89,15 +88,15 @@ export function AppLayout({ children }: AppLayoutProps) {
                       borderRadius: 1,
                       fontSize: "0.875rem",
                       letterSpacing: "0.05em",
-                      color: "#faf5f2",
-                      bgcolor: active ? "rgba(250,245,242,0.15)" : "transparent",
+                      color: COLORS.contrastText,
+                      bgcolor: active ? `${COLORS.contrastText}26` : "transparent",
                       transition: "background-color 0.15s",
                       "&:hover": {
-                        bgcolor: "rgba(250,245,242,0.1)",
+                        bgcolor: `${COLORS.contrastText}1a`,
                       },
                     }}
                   >
-                    <Icon size={16} />
+                    {IconNav}
                     {item.label}
                   </Box>
                 </Link>
@@ -130,7 +129,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       >
         <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
           {NAV_ITEMS.map((item) => {
-            const Icon = navIcons[item.to];
+            const IconNav = navIcons[item.to];
             const active = pathname.startsWith(item.to);
             return (
               <Link key={item.to} to={item.to} style={{ textDecoration: "none" }}>
@@ -148,7 +147,7 @@ export function AppLayout({ children }: AppLayoutProps) {
                     transition: "color 0.15s",
                   }}
                 >
-                  <Icon size={20} />
+                  {IconNav}
                   {item.label}
                 </Box>
               </Link>
