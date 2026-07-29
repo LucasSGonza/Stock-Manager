@@ -23,14 +23,9 @@
 - [OK] Na aba "Caixa", definir valor em "Status" a partir das parcelas pagas/totais
 - [OK] Transformar "Dialog de exclusao" em uma componente reutilizavel; 
 - [OK] Padronizar `width` e centralizar texto do componente `Chip` utilizado na coluna **Status** na aba "Caixa";
-- [] Adicionar `dark mode`;
-- [] Adicionar internacionalização com a lib `react-inl`;
-- [] Adicionar lib `react-hook-form` + `yup` (validator);
-    - [] `SaleModal.tsx`
-    - [] `ClothingModal.tsx`
 - [OK] Remover `status` como propriedade de banco e adicionar somente na tela em `CaixaPage`
 - [OK] Revisar paleta de cores, usos nao padronizados, etc. `constants.ts` e `deadline.ts` usam cores diferentes, revisar em quais cenarios cada cor esta sendo aplicada...
-- [] Adicionar validacoes e implementar funcionalidades na aba "Caixa";
+- [OK] Adicionar validacoes e implementar funcionalidades na aba "Caixa";
     - [OK] Preço deve ser `required` (obrigatório) e maior que 0;
     - [OK] "numero de parcelas pagas" nao pode ser superior ao "numero de parcelas totais";
     - [OK] Modal adicao novo registro
@@ -42,4 +37,11 @@
 
 # v2 Stock Manager
 
+- [] Adicionar `dark mode`;
+- [] Adicionar internacionalização com a lib `react-inl`;
+- [] Adicionar lib `react-hook-form` + `yup` (validator);
+    - [] `SaleModal.tsx`
+    - [] `ClothingModal.tsx`
+
+# v3 Stock Manager
 - [] Adicionar forma de realizar "Login" na aplicação (2FA);
