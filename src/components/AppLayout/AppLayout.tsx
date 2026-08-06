@@ -10,6 +10,7 @@ interface AppLayoutProps {
 const navIcons = {
   "/estoque": <Icon fontSize="medium">checkroom</Icon>,
   "/caixa": <Icon fontSize="medium">wallet</Icon>,
+  "/config": <Icon fontSize="medium">settings</Icon>,
 } as const;
 
 export function AppLayout({ children }: AppLayoutProps) {
@@ -127,7 +128,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           borderTop: `1px solid ${COLORS.border}`,
         }}
       >
-        <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+        <Box sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
           {NAV_ITEMS.map((item) => {
             const IconNav = navIcons[item.to];
             const active = pathname.startsWith(item.to);

@@ -27,4 +27,5 @@ export const BORDER_RADIUS = 8;
 export const NAV_ITEMS = [
   { to: "/estoque", label: "Estoque" },
   { to: "/caixa", label: "Caixa" },
+  { to: "/config", label: "Configuração" },
 ] as const;
